@@ -7,29 +7,24 @@ defmodule BlockScoutWeb.LayoutView do
 
   import BlockScoutWeb.AddressView, only: [from_address_hash: 1]
 
-  @issue_url "https://github.com/blockscout/blockscout/issues/new"
+  @issue_url "https://github.com/FindoraNetwork/blockscout/blockscout/issues/new"
   @default_other_networks [
     %{
-      title: "POA",
-      url: "https://blockscout.com/poa/core"
+      title: "MainNet",
+      url: "https://prod-mainnet.prod.findora.org'"
     },
     %{
-      title: "Sokol",
-      url: "https://blockscout.com/poa/sokol",
+      title: "TestNet",
+      url: "https://prod-testnet.prod.findora.org",
       test_net?: true
     },
     %{
-      title: "xDai",
-      url: "https://blockscout.com/xdai/mainnet"
+      title: "Forge",
+      url: "https://prod-forge.prod.findora.org"
     },
     %{
-      title: "Ethereum Classic",
-      url: "https://blockscout.com/etc/mainnet",
-      other?: true
-    },
-    %{
-      title: "RSK",
-      url: "https://blockscout.com/rsk/mainnet",
+      title: "QA02",
+      url: "https://dev-qa02.dev.findora.org",
       other?: true
     }
   ]
@@ -50,11 +45,11 @@ defmodule BlockScoutWeb.LayoutView do
   end
 
   def subnetwork_title do
-    Keyword.get(application_config(), :subnetwork) || "Sokol"
+    Keyword.get(application_config(), :subnetwork) || "Findora"
   end
 
   def network_title do
-    Keyword.get(application_config(), :network) || "POA"
+    Keyword.get(application_config(), :network) || "FRA"
   end
 
   defp application_config do
