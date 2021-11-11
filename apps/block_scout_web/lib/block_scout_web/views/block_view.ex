@@ -13,12 +13,12 @@ defmodule BlockScoutWeb.BlockView do
   def average_gas_price(%Block{transactions: transactions}) do
     average =
       transactions
-      |> Enum.map(&Decimal.to_float(Wei.to(&1.gas_price, :gwei)))
+      |> Enum.map(&Decimal.to_float(Wei.to(&1.gas_price, :fra)))
       |> mean()
       |> Kernel.||(0)
       |> BlockScoutWeb.Cldr.Number.to_string!()
 
-    unit_text = gettext("Gwei")
+    unit_text = gettext("FRA")
 
     "#{average} #{unit_text}"
   end
@@ -78,6 +78,6 @@ defmodule BlockScoutWeb.BlockView do
   def combined_rewards_value(block) do
     block
     |> Chain.block_combined_rewards()
-    |> format_wei_value(:ether)
+    |> format_wei_value(:fra)
   end
 end

@@ -20,7 +20,7 @@ defmodule BlockScoutWeb.LayoutView do
     },
     %{
       title: "Forge",
-      url: "https://prod-forge.prod.findora.org"
+      url: "http://blockscout.prod.findora.org/"
     },
     %{
       title: "QA02",

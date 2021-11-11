@@ -315,7 +315,7 @@
               <%= gettext "Transaction Fee" %>
             </dt>
             <dd class="col-sm-9 col-lg-10">
-              <%= formatted_fee(@transaction, denomination: :ether) %>
+              <%= formatted_fee(@transaction, denomination: :fra) %>
 
               <%= if !empty_exchange_rate?(@exchange_rate) do %>
                 (<span data-wei-value=<%= fee(@transaction) %> data-usd-exchange-rate=<%= @exchange_rate.usd_value %>></span>)
@@ -329,7 +329,7 @@
                 text: gettext("Price per unit of gas specified by the sender. Higher gas prices can prioritize transaction inclusion during times of high usage.") %>
               <%= gettext "Gas Price" %>
             </dt>
-            <dd class="col-sm-9 col-lg-10"> <%= gas_price(@transaction, :gwei) %> </dd>
+            <dd class="col-sm-9 col-lg-10"> <%= gas_price(@transaction, :fra) %> </dd>
           </dl>
           <%= if !is_nil(type) do %>
             <dl class="row">
@@ -358,7 +358,7 @@
                   text: gettext("Maximum total amount per unit of gas a user is willing to pay for a transaction, including base fee and priority fee.") %>
                 <%= gettext "Max Fee per Gas" %>
               </dt>
-              <dd class="col-sm-9 col-lg-10"> <%= format_wei_value(max_fee_per_gas, :gwei) %> </dd>
+              <dd class="col-sm-9 col-lg-10"> <%= format_wei_value(max_fee_per_gas, :fra) %> </dd>
             </dl>
           <% end %>
           <%= if !is_nil(max_priority_fee_per_gas) do %>
@@ -368,7 +368,7 @@
                   text: gettext("User defined maximum fee (tip) per unit of gas paid to validator for transaction prioritization.") %>
                 <%= gettext "Max Priority Fee per Gas" %>
               </dt>
-              <dd class="col-sm-9 col-lg-10"> <%= format_wei_value(max_priority_fee_per_gas, :gwei) %> </dd>
+              <dd class="col-sm-9 col-lg-10"> <%= format_wei_value(max_priority_fee_per_gas, :fra) %> </dd>
             </dl>
           <% end %>
           <%= if !is_nil(priority_fee) do %>
@@ -378,7 +378,7 @@
                   text: gettext("User-defined tip sent to validator for transaction priority/inclusion.") %>
                 <%= gettext "Priority Fee / Tip" %>
               </dt>
-              <dd class="col-sm-9 col-lg-10"> <%= format_wei_value(priority_fee, :ether) %> </dd>
+              <dd class="col-sm-9 col-lg-10"> <%= format_wei_value(priority_fee, :fra) %> </dd>
             </dl>
           <% end %> 
            <%= if !is_nil(burned_fee) do %>
@@ -388,7 +388,7 @@
                   text: gettext("Amount of xDai burned for this transaction. Equals Block Base Fee per Gas * Gas Used.") %>
                 <%= gettext "Transaction Burnt Fee" %>
               </dt>
-              <dd class="col-sm-9 col-lg-10"><i class="fas fa-fire i-tooltip-2"></i> <%= format_wei_value(burned_fee, :ether) %>
+              <dd class="col-sm-9 col-lg-10"><i class="fas fa-fire i-tooltip-2"></i> <%= format_wei_value(burned_fee, :fra) %>
                 <%= unless empty_exchange_rate?(@exchange_rate) do %>
                   (<span data-wei-value=<%= burned_fee_decimal %> data-usd-exchange-rate=<%= @exchange_rate.usd_value %>></span>)
                 <% end %>

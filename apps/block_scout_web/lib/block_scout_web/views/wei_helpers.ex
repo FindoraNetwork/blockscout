@@ -8,7 +8,7 @@ defmodule BlockScoutWeb.WeiHelpers do
   alias BlockScoutWeb.CldrHelper
   alias Explorer.Chain.Wei
 
-  @valid_units ~w(wei gwei ether)a
+  @valid_units ~w(wei gwei ether fra)a
 
   @type format_option :: {:include_unit_label, boolean()}
 
@@ -59,10 +59,10 @@ defmodule BlockScoutWeb.WeiHelpers do
       |> Wei.to(unit)
 
     formatted_value =
-      if Decimal.cmp(converted_value, 1_000_000_000_000) == :gt do
-        CldrHelper.Number.to_string!(converted_value, format: "0.###E+0")
+      if Decimal.cmp(converted_value, 1_000_000) == :gt do
+        CldrHelper.Number.to_string!(converted_value) # , format: "0.###"
       else
-        CldrHelper.Number.to_string!(converted_value, format: "#,##0.##################")
+        CldrHelper.Number.to_string!(converted_value, format: "#,##0.##################") #
       end
 
     if Keyword.get(options, :include_unit_label, true) do
@@ -76,4 +76,5 @@ defmodule BlockScoutWeb.WeiHelpers do
   defp display_unit(:wei), do: gettext("Wei")
   defp display_unit(:gwei), do: gettext("Gwei")
   defp display_unit(:ether), do: gettext("Ether")
+  defp display_unit(:fra), do: gettext("FRA")
 end

@@ -382,7 +382,7 @@ defmodule BlockScoutWeb.TransactionView do
   @doc """
   Converts a transaction's gas price to a displayable value.
   """
-  def gas_price(%Transaction{gas_price: gas_price}, unit) when unit in ~w(wei gwei ether)a do
+  def gas_price(%Transaction{gas_price: gas_price}, unit) when unit in ~w(wei gwei ether fra)a do
     format_wei_value(gas_price, unit)
   end
 
@@ -482,11 +482,11 @@ defmodule BlockScoutWeb.TransactionView do
   """
   def value(%mod{value: value}, opts \\ []) when is_transaction_type(mod) do
     include_label? = Keyword.get(opts, :include_label, true)
-    format_wei_value(value, :ether, include_unit_label: include_label?)
+    format_wei_value(value, :fra, include_unit_label: include_label?)
   end
 
   def format_wei_value(value) do
-    format_wei_value(value, :ether, include_unit_label: false)
+    format_wei_value(value, :fra, include_unit_label: false)
   end
 
   defp fee_to_denomination({fee_type, fee}, opts) do
