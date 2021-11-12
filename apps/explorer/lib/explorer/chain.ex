@@ -608,6 +608,7 @@ defmodule Explorer.Chain do
   @spec balance(Address.t(), :gwei) :: Wei.gwei() | nil
   @spec balance(Address.t(), :ether) :: Wei.ether() | nil
   @spec balance(Address.t(), :fra) :: Wei.fra() | nil
+  @spec balance(Address.t(), :prv) :: Wei.prv() | nil
   def balance(%Address{fetched_coin_balance: balance}, unit) do
     case balance do
       nil -> nil
@@ -3642,10 +3643,12 @@ defmodule Explorer.Chain do
   @spec value(InternalTransaction.t(), :gwei) :: Wei.gwei()
   @spec value(InternalTransaction.t(), :ether) :: Wei.ether()
   @spec value(InternalTransaction.t(), :fra) :: Wei.fra()
+  @spec value(InternalTransaction.t(), :prv) :: Wei.prv()
   @spec value(Transaction.t(), :wei) :: Wei.wei()
   @spec value(Transaction.t(), :gwei) :: Wei.gwei()
   @spec value(Transaction.t(), :ether) :: Wei.ether()
   @spec value(Transaction.t(), :fra) :: Wei.fra()
+  @spec value(Transaction.t(), :prv) :: Wei.prv()
   def value(%type{value: value}, unit) when type in [InternalTransaction, Transaction] do
     Wei.to(value, unit)
   end
