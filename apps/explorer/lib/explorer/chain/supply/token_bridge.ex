@@ -173,7 +173,7 @@ defmodule Explorer.Chain.Supply.TokenBridge do
   def get_current_total_supply_from_token_bridge do
     minted_coins()
     |> Wei.sub(burned_coins())
-    |> Wei.to(:ether)
+    |> Wei.to(:fra)
   end
 
   def get_current_market_cap_from_omni_bridge do

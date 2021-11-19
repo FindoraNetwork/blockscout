@@ -607,6 +607,8 @@ defmodule Explorer.Chain do
   @spec balance(Address.t(), :wei) :: Wei.wei() | nil
   @spec balance(Address.t(), :gwei) :: Wei.gwei() | nil
   @spec balance(Address.t(), :ether) :: Wei.ether() | nil
+  @spec balance(Address.t(), :fra) :: Wei.fra() | nil
+  @spec balance(Address.t(), :prv) :: Wei.prv() | nil
   def balance(%Address{fetched_coin_balance: balance}, unit) do
     case balance do
       nil -> nil
@@ -971,7 +973,7 @@ defmodule Explorer.Chain do
       {:actual, Decimal.new(4)}
 
   """
-  @spec fee(%Transaction{gas_used: nil}, :ether | :gwei | :wei) :: {:maximum, Decimal.t()}
+  @spec fee(%Transaction{gas_used: nil}, :fra | :ether | :gwei | :wei) :: {:maximum, Decimal.t()}
   def fee(%Transaction{gas: gas, gas_price: gas_price, gas_used: nil}, unit) do
     fee =
       gas_price
@@ -981,7 +983,7 @@ defmodule Explorer.Chain do
     {:maximum, fee}
   end
 
-  @spec fee(%Transaction{gas_used: Decimal.t()}, :ether | :gwei | :wei) :: {:actual, Decimal.t()}
+  @spec fee(%Transaction{gas_used: Decimal.t()}, :fra | :ether | :gwei | :wei) :: {:actual, Decimal.t()}
   def fee(%Transaction{gas_price: gas_price, gas_used: gas_used}, unit) do
     fee =
       gas_price
@@ -3640,9 +3642,13 @@ defmodule Explorer.Chain do
   @spec value(InternalTransaction.t(), :wei) :: Wei.wei()
   @spec value(InternalTransaction.t(), :gwei) :: Wei.gwei()
   @spec value(InternalTransaction.t(), :ether) :: Wei.ether()
+  @spec value(InternalTransaction.t(), :fra) :: Wei.fra()
+  @spec value(InternalTransaction.t(), :prv) :: Wei.prv()
   @spec value(Transaction.t(), :wei) :: Wei.wei()
   @spec value(Transaction.t(), :gwei) :: Wei.gwei()
   @spec value(Transaction.t(), :ether) :: Wei.ether()
+  @spec value(Transaction.t(), :fra) :: Wei.fra()
+  @spec value(Transaction.t(), :prv) :: Wei.prv()
   def value(%type{value: value}, unit) when type in [InternalTransaction, Transaction] do
     Wei.to(value, unit)
   end
@@ -5685,7 +5691,7 @@ defmodule Explorer.Chain do
       balances_by_day
       |> Enum.filter(fn day -> day.value end)
       |> Enum.map(fn day -> Map.update!(day, :date, &to_string(&1)) end)
-      |> Enum.map(fn day -> Map.update!(day, :value, &Wei.to(&1, :ether)) end)
+      |> Enum.map(fn day -> Map.update!(day, :value, &Wei.to(&1, :fra)) end)
 
     today = Date.to_string(NaiveDateTime.utc_now())
 

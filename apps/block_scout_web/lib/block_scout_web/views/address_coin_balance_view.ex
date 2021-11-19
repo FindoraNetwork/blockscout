@@ -5,7 +5,7 @@ defmodule BlockScoutWeb.AddressCoinBalanceView do
   alias Explorer.Chain.Wei
 
   def format(%Wei{} = value) do
-    format_wei_value(value, :ether)
+    format_wei_value(value, :fra)
   end
 
   def delta_arrow(value) do
@@ -28,6 +28,6 @@ defmodule BlockScoutWeb.AddressCoinBalanceView do
     value
     |> Decimal.abs()
     |> Wei.from(:wei)
-    |> format_wei_value(:ether)
+    |> format_wei_value(:fra)
   end
 end
