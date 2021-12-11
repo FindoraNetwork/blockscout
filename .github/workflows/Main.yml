@@ -32,7 +32,7 @@ jobs:
         fi
         export BRANCH="${GITHUB_HEAD_REF}"
         export TOBRANCH="${GITHUB_BASE_REF}"
-        export IMAGE_TAG="${BRANCH}-${COMMIT_HASH}"
+        export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
         echo "Image tag: ${IMAGE_TAG}"
         make ci_build_image
     - name: Login ECR
