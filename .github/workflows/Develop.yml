@@ -1,9 +1,9 @@
 
-name: add-ci-process
+name: develop
 on:
   pull_request:
     branches:
-      - master
+      - develop
 jobs:
   build-and-deploy:
     strategy:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{matrix.platform}}
     env:
       PUBLIC_ECR_URL: public.ecr.aws/k6m5b6e2
-      ENV: release
+      ENV: dev
     steps:
     - name: checkout
       uses: actions/checkout@v2
