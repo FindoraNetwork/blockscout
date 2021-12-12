@@ -60,8 +60,8 @@ jobs:
         export TOBRANCH="${GITHUB_BASE_REF}"
         export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
         echo "Image tag: ${IMAGE_TAG}"
-        docker push $(PUBLIC_ECR_URL)/$(ENV)/findorad:$(IMAGE_TAG)
-        docker push $(PUBLIC_ECR_URL)/$(ENV)/findorad:latest
+        make ci_push_image
+
     - name: Clean blockscout images
       env:
         PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
