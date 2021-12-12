@@ -44,3 +44,5 @@ RUN cd apps/explorer/ && \
     apk update && apk del --force-broken-world alpine-sdk gmp-dev automake libtool inotify-tools autoconf python3
 
 RUN mix phx.digest
+
+ENTRYPOINT [ "/bin/sh", "-c", "mix do ecto.create, ecto.migrate; mix phx.server" ]
