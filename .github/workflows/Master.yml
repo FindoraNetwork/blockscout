@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - master
+      - test
 jobs:
   build-and-deploy:
     strategy:
