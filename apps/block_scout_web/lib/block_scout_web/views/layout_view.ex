@@ -11,7 +11,7 @@ defmodule BlockScoutWeb.LayoutView do
   @default_other_networks [
     %{
       title: "MainNet",
-      url: "https://prod-mainnet.prod.findora.org'"
+      url: "https://evm.findorascan.io"
     },
     %{
       title: "Anvil",
