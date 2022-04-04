@@ -3,8 +3,14 @@ $dashboard-banner-gradient-end: lighten(
   $dashboard-banner-gradient-start,
   5%
 ) !default;
-$dashboard-banner-network-plain-container-background-color: lighten($dashboard-banner-gradient-end, 5%) !default;
-$dashboard-line-color-price: lighten($dashboard-banner-gradient-end, 5%) !default;
+$dashboard-banner-network-plain-container-background-color: lighten(
+  $dashboard-banner-gradient-end,
+  5%
+) !default;
+$dashboard-line-color-price: lighten(
+  $dashboard-banner-gradient-end,
+  5%
+) !default;
 $dashboard-line-color-market: $secondary !default;
 $dashboard-line-color-transactions: $warning !default;
 $dashboard-stats-item-label-color: #fff !default;
@@ -24,10 +30,10 @@ $dashboard-banner-chart-axis-font-color-alt: #333;
   position: relative;
   height: 264px;
   @include media-breakpoint-down(sm) {
-      height: auto;
+    height: auto;
   }
   @include media-breakpoint-down(md) {
-      height: auto;
+    height: auto;
   }
 }
 
@@ -80,10 +86,19 @@ $dashboard-banner-chart-axis-font-color-alt: #333;
 }
 
 .dashboard-banner-chart-legend {
-  display: grid;
-  grid-template-columns: repeat(var(--numChartData), 0.9fr);
-  padding-bottom: 12px;
-  padding-left:20px;
+  // temporary - bring it back when market cap data is back
+  // display: grid;
+  // grid-template-columns: repeat(var(--numChartData), 0.9fr);
+  // padding-bottom: 12px;
+  // padding-left: 200px;
+  // backgound-color: "red" !important;
+
+  // temporary - remove when market cap data is back
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  // temporary
 
   .dashboard-banner-chart-legend-item {
     padding-bottom: 3px;
@@ -122,14 +137,15 @@ $dashboard-banner-chart-axis-font-color-alt: #333;
     }
 
     &:nth-child(3)::before {
-        background-color: $dashboard-line-color-transactions;
+      background-color: $dashboard-line-color-transactions;
     }
   }
 
   .dashboard-banner-chart-legend-label {
     color: $dashboard-banner-chart-legend-label-color;
     display: block;
-    font-size: 12px;
+    // font-size: 12px; // uncomment when market cap data is back
+    font-size: 22px; // remove when market cap is back
     font-weight: 600;
     line-height: 1.2;
     margin: 0 0 5px;
@@ -147,7 +163,9 @@ $dashboard-banner-chart-axis-font-color-alt: #333;
   .dashboard-banner-chart-legend-value {
     color: $dashboard-banner-chart-legend-value-color;
     display: block;
-    font-size: 12px;
+    // font-size: 12px; // uncomment when market cap data is back
+    font-size: 18px; // remove when market cap is back
+
     font-weight: normal;
     line-height: 1.2;
 
@@ -242,7 +260,11 @@ $dashboard-banner-chart-axis-font-color-alt: #333;
     grid-template-columns: 1fr 1fr;
   }
 
-  @include stats-item($dashboard-stats-item-border-color, $dashboard-stats-item-label-color, $dashboard-stats-item-value-color);
+  @include stats-item(
+    $dashboard-stats-item-border-color,
+    $dashboard-stats-item-label-color,
+    $dashboard-stats-item-value-color
+  );
 
   .dashboard-banner-network-stats-item {
     @media (max-width: 374px) {

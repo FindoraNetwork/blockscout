@@ -4,6 +4,7 @@
       <!-- Graph and legend -->
       <div class="dashboard-banner-network-graph">
         <!-- Graph -->
+        <!-- temporary disabled market cap
         <div class="dashboard-banner-chart">
           <button data-chart-error-message class="alert alert-danger col-12 text-left mt-5" style="display: none;">
             <span><%= gettext("There was a problem loading the chart.") %></span>
@@ -20,6 +21,7 @@
                   width="350" height="152">
           </canvas>
         </div>
+        -->
         <!-- Legend -->
         <script>
          numChartData = <%= Enum.reduce(@chart_config, 0, fn (source, acc) ->
@@ -55,6 +57,7 @@
                     </div>
                 </div>
             <% end %>
+            <!-- temporary disabled market cap
             <%= if Enum.member?(@chart_config.market, :market_cap) do %>
             <div class="dashboard-banner-chart-legend-item">
                 <span class="dashboard-banner-chart-legend-label">
@@ -81,6 +84,7 @@
                   <% end %>
                 </div>
             </div>
+            -->
             <% end %>
           <% end %>
           <%= if Map.has_key?(@chart_config, :transactions) do %>
@@ -194,7 +198,7 @@
         <div hidden data-selector="loading-message" class="col-lg-3" >
          <div data-selector="chain-block">
            <div class="tile tile-type-block n-p d-flex flex-column">
-             <a class="tile-title"><span class="tile-loader tile-label-loader"></span> </a> 
+             <a class="tile-title"><span class="tile-loader tile-label-loader"></span> </a>
              <div class="tile-bottom-contents">
                <div class="dark-block-loader"></div>
                <div class="dark-block-loader"></div>
@@ -205,7 +209,7 @@
         <div hidden data-selector="loading-message" class="col-lg-3" >
          <div data-selector="chain-block">
            <div class="tile tile-type-block n-p d-flex flex-column">
-             <a class="tile-title"><span class="tile-loader tile-label-loader"></span> </a> 
+             <a class="tile-title"><span class="tile-loader tile-label-loader"></span> </a>
              <div class="tile-bottom-contents">
                <div class="dark-block-loader"></div>
                <div class="dark-block-loader"></div>
@@ -223,7 +227,7 @@
             </div>
            </div>
          </div>
-        </div>   
+        </div>
       </div>
     </div>
   </div>
