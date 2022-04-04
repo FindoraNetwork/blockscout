@@ -14,18 +14,13 @@ defmodule BlockScoutWeb.LayoutView do
       url: "https://prod-mainnet.prod.findora.org'"
     },
     %{
-      title: "TestNet",
-      url: "https://prod-testnet.prod.findora.org",
-      test_net?: true
-    },
-    %{
-      title: "Forge",
-      url: "http://blockscout.prod.findora.org/"
+      title: "Anvil",
+      url: "https://testnet-anvil.evm.findorascan.io"
     },
     %{
       title: "QA02",
       url: "https://dev-qa02.dev.findora.org",
-      other?: true
+      test_net?: true
     }
   ]
 
