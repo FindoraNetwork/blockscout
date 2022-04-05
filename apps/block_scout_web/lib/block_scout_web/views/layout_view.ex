@@ -11,15 +11,11 @@ defmodule BlockScoutWeb.LayoutView do
   @default_other_networks [
     %{
       title: "MainNet",
-      url: "https://prod-mainnet.prod.findora.org'"
+      url: "https://evm.findorascan.io"
     },
     %{
       title: "Anvil",
-      url: "https://testnet-anvil.evm.findorascan.io"
-    },
-    %{
-      title: "QA02",
-      url: "https://dev-qa02.dev.findora.org",
+      url: "https://testnet-anvil.evm.findorascan.io",
       test_net?: true
     }
   ]
