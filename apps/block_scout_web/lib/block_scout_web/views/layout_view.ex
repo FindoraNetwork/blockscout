@@ -32,7 +32,7 @@ defmodule BlockScoutWeb.LayoutView do
   end
 
   def logo_text do
-    Keyword.get(application_config(), :logo_text) || nil
+    Keyword.get(application_config(), :logo_text) || "Findora"
   end
 
   def subnetwork_title do
