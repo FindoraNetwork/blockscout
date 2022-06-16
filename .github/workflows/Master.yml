@@ -84,6 +84,7 @@ jobs:
     strategy:
       matrix:
         platform: [aws]
+    runs-on: ${{ matrix.platform }}
     steps:
       - name: update the blockscout image
         uses: appleboy/ssh-action@master
