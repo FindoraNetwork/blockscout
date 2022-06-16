@@ -5,92 +5,98 @@ on:
     branches:
       - master
 jobs:
-  # build-image:
-  #   strategy:
-  #     matrix:
-  #       platform: [aws]
-  #   runs-on: ${{matrix.platform}}
-  #   env:
-  #     PUBLIC_ECR_URL: public.ecr.aws/k6m5b6e2
-  #     ENV: release
-  #   steps:
-  #   - name: checkout
-  #     uses: actions/checkout@v2
+  build-image:
+    strategy:
+      matrix:
+        platform: [aws]
+    runs-on: ${{matrix.platform}}
+    env:
+      PUBLIC_ECR_URL: public.ecr.aws/k6m5b6e2
+      ENV: release
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
 
-  #   - name: Build blockscout images
-  #     env:
-  #       PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
-  #       ENV: ${{ env.ENV }}
-  #       GITHUB_CONTEXT: ${{ toJSON(github) }}
-  #     shell: bash
-  #     run: |
-  #       COMMIT_HASH=$(echo ${GITHUB_CONTEXT} | jq '.event.pull_request.head.sha')
-  #       if [ "${COMMIT_HASH}" == "null" ]; then
-  #         export COMMIT_HASH="${GITHUB_SHA}"
-  #       else
-  #         export COMMIT_HASH=${COMMIT_HASH}
-  #       fi
-  #       export BRANCH="${GITHUB_HEAD_REF}"
-  #       export TOBRANCH="${GITHUB_BASE_REF}"
-  #       export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
-  #       echo "Image tag: ${IMAGE_TAG}"
-  #       make ci_build_image
-  #   - name: Login ECR
-  #     env:
-  #       PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
-  #     shell: bash
-  #     run: |
-  #       # $(aws ecr get-login --region us-west-2 --no-include-email)
-  #       aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${PUBLIC_ECR_URL}
+    - name: Build blockscout images
+      env:
+        PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
+        ENV: ${{ env.ENV }}
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      shell: bash
+      run: |
+        COMMIT_HASH=$(echo ${GITHUB_CONTEXT} | jq '.event.pull_request.head.sha')
+        if [ "${COMMIT_HASH}" == "null" ]; then
+          export COMMIT_HASH="${GITHUB_SHA}"
+        else
+          export COMMIT_HASH=${COMMIT_HASH}
+        fi
+        export BRANCH="${GITHUB_HEAD_REF}"
+        export TOBRANCH="${GITHUB_BASE_REF}"
+        export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
+        echo "Image tag: ${IMAGE_TAG}"
+        make ci_build_image
+    - name: Login ECR
+      env:
+        PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
+      shell: bash
+      run: |
+        # $(aws ecr get-login --region us-west-2 --no-include-email)
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${PUBLIC_ECR_URL}
 
-  #   - name: Push images
-  #     env:
-  #       PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
-  #       ENV: ${{ env.ENV }}
-  #       GITHUB_CONTEXT: ${{ toJSON(github) }}
-  #     shell: bash
-  #     run: |
-  #       COMMIT_HASH=$(echo ${GITHUB_CONTEXT} | jq '.event.pull_request.head.sha')
-  #       if [ "${COMMIT_HASH}" == "null" ]; then
-  #         export COMMIT_HASH="${GITHUB_SHA}"
-  #       else
-  #         export COMMIT_HASH=${COMMIT_HASH}
-  #       fi
-  #       export BRANCH="${GITHUB_HEAD_REF}"
-  #       export TOBRANCH="${GITHUB_BASE_REF}"
-  #       export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
-  #       echo "Image tag: ${IMAGE_TAG}"
-  #       make ci_push_image
+    - name: Push image
+      id: push_image
+      env:
+        PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
+        ENV: ${{ env.ENV }}
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      shell: bash
+      run: |
+        COMMIT_HASH=$(echo ${GITHUB_CONTEXT} | jq '.event.pull_request.head.sha')
+        if [ "${COMMIT_HASH}" == "null" ]; then
+          export COMMIT_HASH="${GITHUB_SHA}"
+        else
+          export COMMIT_HASH=${COMMIT_HASH}
+        fi
+        export BRANCH="${GITHUB_HEAD_REF}"
+        export TOBRANCH="${GITHUB_BASE_REF}"
+        export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
+        echo "Image tag: ${IMAGE_TAG}"
+        echo "::set-output name=image_url::${{ env.PUBLIC_ECR_URL }}/${{ env.ENV}}/${IMAGE_TAG}"
+        make ci_push_image
 
-  #   - name: Clean blockscout images
-  #     env:
-  #       PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
-  #       ENV: ${{ env.ENV }}
-  #       GITHUB_CONTEXT: ${{ toJSON(github) }}
-  #     shell: bash
-  #     run: |
-  #       COMMIT_HASH=$(echo ${GITHUB_CONTEXT} | jq '.event.pull_request.head.sha')
-  #       if [ "${COMMIT_HASH}" == "null" ]; then
-  #         export COMMIT_HASH="${GITHUB_SHA}"
-  #       else
-  #         export COMMIT_HASH=${COMMIT_HASH}
-  #       fi
-  #       export BRANCH="${GITHUB_HEAD_REF}"
-  #       export TOBRANCH="${GITHUB_BASE_REF}"
-  #       export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
-  #       echo "Image tag: ${IMAGE_TAG}"
-  #       make clean_image
+    - name: Clean blockscout images
+      env:
+        PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
+        ENV: ${{ env.ENV }}
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      shell: bash
+      run: |
+        COMMIT_HASH=$(echo ${GITHUB_CONTEXT} | jq '.event.pull_request.head.sha')
+        if [ "${COMMIT_HASH}" == "null" ]; then
+          export COMMIT_HASH="${GITHUB_SHA}"
+        else
+          export COMMIT_HASH=${COMMIT_HASH}
+        fi
+        export BRANCH="${GITHUB_HEAD_REF}"
+        export TOBRANCH="${GITHUB_BASE_REF}"
+        export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
+        echo "Image tag: ${IMAGE_TAG}"
+        make clean_image
+    outputs:
+      image_url: ${{ steps.push_image.outputs.image_url }}
   deploy:    
     strategy:
       matrix:
         platform: [aws]
     runs-on: ${{ matrix.platform }}
+    needs: [build-image]
     steps:
       - name: update the blockscout image
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.MAINNET_HOST}}
+          host: ${{ secrets.MAINNET_HOST }}
           username: ubuntu
-          key: ${{ secrets.MAINNET_KEY}}
+          key: ${{ secrets.MAINNET_KEY }}
           port: 22
-          script: sh update.sh
+          script: |
+            echo ${{ needs.build-image.outputs.image_url}}
