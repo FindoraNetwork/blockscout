@@ -98,8 +98,9 @@ jobs:
           key: ${{ secrets.MAINNET_KEY }}
           port: 22
           script: |
+            sudo su
             docker stop blockscout
-            dokcer rm blockscout
+            docker rm blockscout
             docker run -d -t\
               -p 4000:4000 \
               -e DATABASE_URL=postgresql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.QA02_RDS }}/explorer?ssl=false \
