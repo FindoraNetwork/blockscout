@@ -44,6 +44,7 @@ jobs:
         aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${PUBLIC_ECR_URL}
 
     - name: Push images
+      id: push_image
       env:
         PUBLIC_ECR_URL: ${{ env.PUBLIC_ECR_URL }}
         ENV: ${{ env.ENV }}
@@ -60,6 +61,7 @@ jobs:
         export TOBRANCH="${GITHUB_BASE_REF}"
         export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
         echo "Image tag: ${IMAGE_TAG}"
+        echo "::set-output name=image_url::${{ env.PUBLIC_ECR_URL }}/${{ env.ENV}}/${IMAGE_TAG}"
         make ci_push_image
 
     - name: Clean blockscout images
@@ -80,3 +82,31 @@ jobs:
         export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
         echo "Image tag: ${IMAGE_TAG}"
         make clean_image
+
+  deploy:
+    strategy:
+      matrix:
+        platform: [aws]
+    runs-on: ${{ matrix.platform }}
+    needs: [build-image]
+    steps:
+      - name: update the blockscout image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.MAINNET_HOST }}
+          username: ubuntu
+          key: ${{ secrets.MAINNET_KEY }}
+          port: 22
+          script: |
+            docker stop blockscout
+            dokcer rm blockscout
+            docker run -d -t\
+              -p 4000:4000 \
+              -e DATABASE_URL=postgresql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.QA02_RDS }}/explorer?ssl=false \
+              -e ETHEREUM_JSONRPC_VARIANT=ganache \
+              -e ETHEREUM_JSONRPC_HTTP_URL=https://${{ secrets.QA02_ENDPOINT }} \
+              -e COIN=FRA \
+              -e MIX_ENV=prod \
+              --restart always \
+              --name blockscout \
+              ${{ needs.build-image.outputs.image_url }}
