@@ -82,7 +82,8 @@ jobs:
         export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
         echo "Image tag: ${IMAGE_TAG}"
         make clean_image
-
+    outputs:
+      image_url: ${{ steps.push_image.outputs.image_url }}
   deploy:
     strategy:
       matrix:
@@ -93,9 +94,9 @@ jobs:
       - name: update the blockscout image
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.MAINNET_HOST }}
+          host: ${{ secrets.QA02_HOST }}
           username: ubuntu
-          key: ${{ secrets.MAINNET_KEY }}
+          key: ${{ secrets.QA02_KEY }}
           port: 22
           script: |
             sudo su
