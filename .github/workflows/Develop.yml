@@ -61,7 +61,7 @@ jobs:
         export TOBRANCH="${GITHUB_BASE_REF}"
         export IMAGE_TAG="${TOBRANCH}-${COMMIT_HASH}"
         echo "Image tag: ${IMAGE_TAG}"
-        echo "::set-output name=image_url::${{ env.PUBLIC_ECR_URL }}/${{ env.ENV}}/${IMAGE_TAG}"
+        echo "::set-output name=image_url::${{ env.PUBLIC_ECR_URL }}/${{ env.ENV}}/blockscout:${IMAGE_TAG}"
         make ci_push_image
 
     - name: Clean blockscout images
