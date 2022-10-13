@@ -21,8 +21,8 @@ defmodule Indexer.Fetcher.CoinBalance do
 
   @defaults [
     flush_interval: :timer.seconds(3),
-    max_batch_size: 500,
-    max_concurrency: 4,
+    max_batch_size: 50,
+    max_concurrency: 1,
     task_supervisor: Indexer.Fetcher.CoinBalance.TaskSupervisor,
     metadata: [fetcher: :coin_balance]
   ]
@@ -95,7 +95,7 @@ defmodule Indexer.Fetcher.CoinBalance do
         run_fetched_balances(fetched_balances, unique_filtered_entries)
 
       {:error, reason} ->
-        Logger.error(
+        Logger.debug(
           fn ->
             ["failed to fetch: ", inspect(reason)]
           end,
@@ -247,7 +247,7 @@ defmodule Indexer.Fetcher.CoinBalance do
   defp retry(errors) when is_list(errors) do
     retried_entries = fetched_balances_errors_to_entries(errors)
 
-    Logger.error(
+    Logger.debug(
       fn ->
         [
           "failed to fetch: ",
